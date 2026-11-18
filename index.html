@@ -1828,7 +1828,7 @@ function renderSettings(){
   tog('sOutline','Viền nét nhân vật','Tắt nếu máy bị giật hoặc nóng',st.outline)+'</div>'+
   '<div class="sec"><h3>Quán của bạn</h3><div class="fl"><button type="button" class="linkbtn" id="sEdit">Sửa tên quán và màu sơn</button><button type="button" class="linkbtn" id="sHelp">Xem lại hướng dẫn chơi</button></div></div>'+
   '<div class="sec"><h3>Dữ liệu</h3>'+(QVH_RELEASE?'':tog('sXmas','Xem trước Giáng sinh','Bật tuyết, đồ trang trí và khách Giáng sinh ngay (chế độ thử)',!!st.xmasPreview))+'<div class="fl">'+(QVH_RELEASE?'':'<button type="button" class="linkbtn" id="sCheat">Nạp 1 triệu xu (chế độ thử)</button><button type="button" class="linkbtn" id="sMaxLv">Mở max cấp (chế độ thử)</button>')+'<button type="button" class="linkbtn dangerbtn" id="sReset">Chơi lại từ đầu</button></div></div>'+
-  '<div class="pbtns"><button type="button" class="primary" id="sClose">Xong</button></div><p class="ver">Quán Vỉa Hè · bản v173 · tiến trình lưu trên thiết bị này</p>';
+  '<div class="pbtns"><button type="button" class="primary" id="sClose">Xong</button></div><p class="ver">Quán Vỉa Hè · bản v174 · tiến trình lưu trên thiết bị này</p>';
 }
 let resetArm=0;
 $('settings').addEventListener('change',e=>{
@@ -6480,6 +6480,8 @@ function drawPersonRaw(c){
   const x=c.x,y=c.y+bob,skin=c.skin||'#F1C9A0',pants=c.pants||'#2B2F3A';
   if(moving)gShadow(x,c.y+8.5,10,3.2);
   if(c.acc)accWings(c,x,y);
+  // v174: tóc dài phía sau vẽ trước thân để không che cổ/vai
+  if(c.type!=='shipper')drawHairBack(x,y-29-tall,c);
   if(c.type==='shipper'){rr(x-10,y-34,20,17,2);ctx.fillStyle='#1E7A45';ctx.fill();ctx.fillStyle='#F4F4F0';ctx.fillRect(x-6,y-28,12,2)}
   if(c.type==='tay'||c.type==='sv'){rr(x-9,y-28-tall,18,14,4);ctx.fillStyle=c.type==='tay'?'#C0602F':'#24335A';ctx.fill()}
   if(moving){
@@ -6527,7 +6529,6 @@ function drawPersonRaw(c){
   if(moving&&c.foot)drawFootwear(c,x,y,skin,standing);
   if(c.acc)accBody(c,x,y,ny);
   const hy=y-29-tall;
-  if(c.type!=='shipper')drawHairBack(x,hy,c);
   circle(x-8,hy+1,1.8,shade(skin,-0.1));circle(x+8,hy+1,1.8,shade(skin,-0.1));
   circle(x,hy,8,skin);
   ctx.save();ctx.beginPath();ctx.arc(x,hy,8,0,Math.PI*2);ctx.clip();ctx.fillStyle='rgba(150,80,40,.13)';ctx.beginPath();ctx.ellipse(x+5,hy+4,7,8,0,0,Math.PI*2);ctx.fill();ctx.restore();
